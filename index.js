@@ -143,6 +143,23 @@ app.post("/contacts/:userId", async (req, res) => {
 	}
 });
 
+//get by query 
+// to test use this URL localhost:8000/contacts/filter?category=4
+app.get("/contacts/filter",async (req, res) => {
+	let filterContact;
+	try {
+	data = jwt.verify(req.cookies.jwt, secret);
+	filterContact = await Contact.find(req.query);
+	res.json(filterContact);
+} catch (err) {
+	return res.status(401).json({
+		message: "Your token is not valid",
+	});
+}
+
+});
+
+
 app.listen(8000, () => {
 	console.log("Listening");
 });
