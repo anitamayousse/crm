@@ -148,6 +148,39 @@ app.post("/contacts/:userId/info", async (req, res) => {
 
 	);
 });
+
+// app.patch("/contacts/:userId/:contactId/info", async (req, res) => {
+// 	// 1 - Vérifier le token qui est dans le cookie
+// 	let data;
+//     let contacts;
+// 	try {
+// 		data = jwt.verify(req.cookies.jwt, secret);
+//         contacts= await Contact.create(req.body);
+// 		await User.findByIdAndUpdate(req.params.userId, 
+// 			{
+// 			$push: 
+// 			{ 
+// 			client: client._id ,
+// 			email: email._id,
+// 			description: description._id,
+// 			category: category._id
+// 			},
+
+// 		})
+// 	} catch (err) {
+// 		return res.status(401).json({
+// 			message: "Your token is not valid",
+// 		});
+// 	}
+// 	// L'utilisateur est authentifié/autorisé
+// 	res.json({
+//         message: "Your token is valid",
+//         data,
+//         contacts
+//     }
+
+// 	);
+// });
 // Start server
 app.listen(8000, () => {
 	console.log("Listening");
