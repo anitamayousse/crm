@@ -142,7 +142,50 @@ app.post("/contacts/:userId", async (req, res) => {
 		});
 	}
 });
-
+// to make modification on clients info
+app.put("/contacts/:contactId", async (req, res) => {
+	// 1 - Vérifier le token qui est dans le cookie
+	let data;
+    let contact;
+	try {
+		data = jwt.verify(req.cookies.jwt, secret);
+		contact = await Contact.findByIdAndUpdate(req.params.contactId, 
+			{ 
+				client: req.body.client ,
+				email: req.body.email,
+				description: req.body.description,
+				category: req.body.category,
+				},
+		);
+		res.json({
+			message: "Your changed the info of the client",
+			data,
+			contact
+		});
+	} catch (err) {
+		return res.status(401).json({
+			message: "Your token is not valid",
+		});
+	}
+});
+// to delete the client from the lists of contacts
+app.delete("/contacts/:contactId", async (req, res) => {
+	// 1 - Vérifier le token qui est dans le cookie
+	let data;
+    let contact;
+	try {
+		data = jwt.verify(req.cookies.jwt, secret);
+		contact = await Contact.findByIdAndDelete(req.params.contactId);
+		res.json({
+			message: "This contact has been deleted from our database",
+			contact
+		});
+	} catch (err) {
+		return res.status(401).json({
+			message: "Your token is not valid",
+		});
+	}
+});
 //get by query 
 // to test use this URL localhost:8000/contacts/filter?category=4
 app.get("/contacts/filter",async (req, res) => {
