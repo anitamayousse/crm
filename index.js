@@ -5,8 +5,8 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const app = express();
 // Models
-const User = require("../back /models/userModel");
-const Contact= require("../back /models/userModel");
+const User = require("./models/User");
+const Contact= require("./models/Contact");
 const secret = "TZbMladabXvKgceHxrS9tHMwx8hE58";
 
 // Middlewares
@@ -16,7 +16,7 @@ app.use(cookieParser());
 // Connexion à MongoDB
 mongoose
 	.connect(
-		"mongodb+srv://Anita:gtXSsxboyg5LMeQQ@cluster0.oppld.mongodb.net/morning_populate?retryWrites=true&w=majority",
+		"mongodb+srv://Anita:gtXSsxboyg5LMeQQ@cluster0.oppld.mongodb.net/crm?retryWrites=true&w=majority",
 		{
 			useNewUrlParser: true,
 		}
@@ -33,11 +33,6 @@ app.post("/signup", async (req, res) => {
 	// 	});
 	// }
     if (req.body.confirmPassword != req.body.password ){
-        return res.status(400).json({
-        message: "Confirmation password does not match",
-    });
-    }   
-	if (req.body.password.length >= 6 ){
         return res.status(400).json({
         message: "Confirmation password does not match",
     });
