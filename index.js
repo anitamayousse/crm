@@ -202,6 +202,11 @@ app.get("/contacts/filter",async (req, res) => {
 
 });
 
+app.get('/logout', function (req, res) {
+	req.session.destroy();
+	res.send("logout success!");
+  });
+   
 
 app.listen(8000, () => {
 	console.log("Listening");
