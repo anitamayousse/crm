@@ -13,6 +13,15 @@ const secret = "TZbMladabXvKgceHxrS9tHMwx8hE58";
 app.use(express.json());
 app.use(cookieParser());
 
+// function verifyAdmin (req, res, next){
+// 	if(req.decoded._doc.isAdmin === true){
+// 		return next();
+// 	}else{
+// 		var err = new Error('Not an Admin =.=');
+// 		err.status = 401;
+// 		return next(err);
+// 	}
+//    };
 // Connexion à MongoDB
 mongoose
 	.connect(
@@ -47,6 +56,7 @@ app.post("/signup", async (req, res) => {
 			email: req.body.email,
             password: hashedPassword,
             confirmPassword: hashedConfirmPassword,
+			isAdmin:req.body.isAdmin
 		});
 	} catch (err) {
 		return res.status(400).json({
@@ -144,6 +154,7 @@ app.post("/contacts/:userId", async (req, res) => {
 });
 // to make modification on clients info
 app.put("/contacts/:contactId", async (req, res) => {
+
 	// 1 - Vérifier le token qui est dans le cookie
 	let data;
     let contact;
@@ -217,6 +228,45 @@ app.get('/logout',(req,res)=>{
 	}
 
    });
+// to count the number of contacts 
+app.get("/admin/totalcontacts", async (req, res) => {
+	try {
+	const data = await Contact.count(
+			{
+				 $group: { 
+					 _id:null,
+					 total: {$sum: 1}
+				 }
+			})
+		 res.json(data);
+
+	} catch (err) {
+		return res.status(401).json({
+			message: "Error",
+		});
+	}
+  });
+
+
+app.delete("/users/:userId", async (req, res) => {
+
+	// 1 - Vérifier le token qui est dans le cookie
+	let data;
+    let users;
+	try {
+		data = jwt.verify(req.cookies.jwt, secret);
+		users = await User.findByIdAndDelete(req.params.userId 
+			);
+		res.json({
+			message: "This user with all its contacts has been deleted from our database",
+			users
+		});
+	} catch (err) {
+		return res.status(401).json({
+			message: "Your token is not valid",
+		});
+	}
+});
 
 app.listen(8000, () => {
 	console.log("Listening");

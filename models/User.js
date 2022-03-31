@@ -17,6 +17,7 @@ const UserSchema = mongoose.Schema({
         required: true,
         max: 8
         },
+    isAdmin: Boolean,
     contacts: [{ type: mongoose.Types.ObjectId, ref: "Contact" }],
 });
 
