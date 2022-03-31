@@ -190,6 +190,7 @@ app.delete("/contacts/:contactId", async (req, res) => {
 // to test use this URL localhost:8000/contacts/filter?category=4
 app.get("/contacts/filter",async (req, res) => {
 	let filterContact;
+	let data;
 	try {
 	data = jwt.verify(req.cookies.jwt, secret);
 	filterContact = await Contact.find(req.query);
@@ -202,11 +203,20 @@ app.get("/contacts/filter",async (req, res) => {
 
 });
 
-app.get('/logout', function (req, res) {
-	req.session.destroy();
-	res.send("logout success!");
-  });
-   
+app.get('/logout',(req,res)=>{
+	try {
+		data = jwt.verify(req.cookies.jwt, secret);
+		res.clearCookie("jwt").status(200).json({
+			message: "You have successfully logged out!",
+		  });
+		  res.redirect("/");
+	} catch (err) {
+		return res.status(401).json({
+			message: "Your token is not valid",
+		});
+	}
+
+   });
 
 app.listen(8000, () => {
 	console.log("Listening");
