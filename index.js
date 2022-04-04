@@ -37,8 +37,8 @@ mongoose
 
 // Routes
 app.get ("/", (_req, res) => {
-req.setHeader("Content-Type" , "text");
-req.send("<h1>Welcome</h1>");
+res.setHeader("Content-Type" , "text");
+res.send("<h1>Welcome</h1>");
 })
 app.post("/signup", async (req, res) => {
 	// if (req.body.password.length < 6) {
