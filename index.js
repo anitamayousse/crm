@@ -7,7 +7,6 @@ const app = express();
 // Models
 const User = require("./models/User");
 const Contact= require("./models/Contact");
-const req = require("express/lib/request");
 const secret = "TZbMladabXvKgceHxrS9tHMwx8hE58";
 
 // Middlewares
