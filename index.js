@@ -7,6 +7,7 @@ const app = express();
 // Models
 const User = require("./models/User");
 const Contact= require("./models/Contact");
+const req = require("express/lib/request");
 const secret = "TZbMladabXvKgceHxrS9tHMwx8hE58";
 
 // Middlewares
@@ -35,6 +36,10 @@ mongoose
 	});
 
 // Routes
+app.get ("/", (_req, res) => {
+req.setHeader("Content-Type" , "text");
+req.send("<h1>Welcome</h1>");
+})
 app.post("/signup", async (req, res) => {
 	// if (req.body.password.length < 6) {
 	// 	return res.status(400).json({
@@ -268,6 +273,6 @@ app.delete("/users/:userId", async (req, res) => {
 	}
 });
 
-app.listen(8000, () => {
+app.listen(process.env.PORT, () => {
 	console.log("Listening");
 });
