@@ -36,7 +36,7 @@ mongoose
 
 // Routes
 app.get ("/", (_req, res) => {
-res.setHeader("Content-Type" , "text");
+res.setHeader("Content-Type" , "text/html");
 res.send("<h1>Welcome</h1>");
 })
 app.post("/signup", async (req, res) => {
